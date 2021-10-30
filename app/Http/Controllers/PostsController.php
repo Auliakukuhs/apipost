@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BookAuthor;
+use App\Models\Post;
 use Illuminate\Http\Request;
+use App\Http\Resources\PostsResource;
 
-class BookAuthorController extends Controller
+class PostsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,7 @@ class BookAuthorController extends Controller
      */
     public function index()
     {
-        //
+        return PostsResource::collection(Post::all());
     }
 
     /**
@@ -35,27 +36,34 @@ class BookAuthorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $faker = \Faker\Factory::create(1);
+
+        $post = Post::create([
+            'title' => $faker->title,
+            'description' => $faker->sentence
+        ]);
+
+        return new PostsResource($post);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\BookAuthor  $bookAuthor
+     * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(BookAuthor $bookAuthor)
+    public function show(Post $post)
     {
-        //
+        return new PostsResource($post);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\BookAuthor  $bookAuthor
+     * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(BookAuthor $bookAuthor)
+    public function edit(Post $post)
     {
         //
     }
@@ -64,22 +72,28 @@ class BookAuthorController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\BookAuthor  $bookAuthor
+     * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BookAuthor $bookAuthor)
+    public function update(Request $request, Post $post)
     {
-        //
+        $post->update([
+            'title' => $request->input('title'),
+            'description' => $request->input('description')      
+        ]);
+
+        return new PostsResource($post);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\BookAuthor  $bookAuthor
+     * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BookAuthor $bookAuthor)
+    public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return response(null, 204);
     }
 }

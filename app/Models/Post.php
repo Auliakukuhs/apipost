@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Book extends Model
+class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'publication_year'];
+    protected $fillable = ['title', 'description'];
 
     public function author()
     {
         return $this->hasManyThrough(
             '\App\Models\Author',
-            '\App\Models\BookAuthor',
-            'book_id',
+            '\App\Models\PostAuthor',
+            'post_id',
             'id',
             'id',
             'author_id'

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBookAuthorTable extends Migration
+class CreatePostsAuthorTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,17 @@ class CreateBookAuthorTable extends Migration
      */
     public function up()
     {
-        Schema::create('book_author', function (Blueprint $table) {
+        Schema::create('postauthor', function (Blueprint $table) {
             $table->unsignedBigInteger('author_id');
             $table->foreign('author_id')
                 ->references('id')
                 ->on('authors')
                 ->cascade('delete');
 
-            $table->unsignedBigInteger('book_id');
-            $table->foreign('book_id')
+            $table->unsignedBigInteger('post_id');
+            $table->foreign('post_id')
                 ->references('id')
-                ->on('books')
+                ->on('posts')
                 ->cascade('delete');
         });
     }
@@ -35,6 +35,6 @@ class CreateBookAuthorTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('book_author');
+        Schema::dropIfExists('postauthor');
     }
 }
